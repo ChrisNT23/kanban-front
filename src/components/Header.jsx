@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Header.css";
 
 const Header = () => {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Obtener los datos del usuario desde localStorage
   const user = JSON.parse(localStorage.getItem("user"));
@@ -21,13 +22,21 @@ const Header = () => {
         <Link to="/Home">Kanban</Link>
       </div>
 
-      <nav className="nav-links">
-      <Link to="/Home">Home</Link>
-        <Link to="/board">Tareas</Link>
-        <Link to="/reports">Reportes</Link>
-        <Link to="/tasks">Crear Tarea</Link>
+      {/* 📌 Menú hamburguesa */}
+      <div className={`menu-toggle ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen(!menuOpen)}>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      {/* 📌 Menú de navegación */}
+      <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
+        <Link to="/Home" onClick={() => setMenuOpen(false)}>Home</Link>
+        <Link to="/reports" onClick={() => setMenuOpen(false)}>Reportes</Link>
+        <Link to="/tasks" onClick={() => setMenuOpen(false)}>Crear Tarea</Link>
       </nav>
 
+      {/* 📌 Info del usuario */}
       <div className="user-info">
         {user ? (
           <>
